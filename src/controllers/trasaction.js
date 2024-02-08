@@ -3,10 +3,14 @@ class TransactionController {
         this.addTransactionRepository = addTransactionRepository
     }
 
-    handle(httpRequest) {
-        const requiredFields = ['valor', 'tipo', 'descricao']
-        for(const field of requiredFields) if(!httpRequest[field]) return 400
-        this.addTransactionRepository.add(httpRequest)
+    async handle(httpRequest) {
+        try {
+            const requiredFields = ['valor', 'tipo', 'descricao']
+            for(const field of requiredFields) if(!httpRequest[field]) return 400
+            await this.addTransactionRepository.add(httpRequest)
+        } catch (error) {
+            return 500;
+        }
     }
 }
 
