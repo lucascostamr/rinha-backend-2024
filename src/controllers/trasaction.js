@@ -6,10 +6,14 @@ class TransactionController {
     async handle(httpRequest) {
         try {
             const requiredFields = ['valor', 'tipo', 'descricao']
-            for(const field of requiredFields) if(!httpRequest[field]) return 400
-            await this.addTransactionRepository.add(httpRequest)
+            for(const field of requiredFields) if(!httpRequest.body[field]) return { statusCode: 400}
+            const transaction = await this.addTransactionRepository.add(httpRequest.body)
+            return {
+                statusCode: 200,
+                body: transaction
+            };
         } catch (error) {
-            return 500;
+            return { statusCode: 500};
         }
     }
 }
