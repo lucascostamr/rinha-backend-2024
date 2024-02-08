@@ -3,7 +3,7 @@ const AddTransactionRepository = require('./add-transaction-repository')
 const makeAddRepository = () => {
     class TransactionRepositoryStub {
         async add () {
-            return new Promise(resolve => resolve(''))
+            return new Promise(resolve => resolve(makeFakeStatus()))
         }
     }
     return new TransactionRepositoryStub()
@@ -13,6 +13,11 @@ const makeFakeTransaction = () => ({
     valor: "any_valor",
     tipo: "any_tipo",
     descricao: "descricao"
+})
+
+const makeFakeStatus = () => ({
+    "limite" : 100000,
+    "saldo" : -9098
 })
 
 const makeSut = () => {
@@ -37,5 +42,11 @@ describe('Add Transaction Repository', () => {
         jest.spyOn(transactionRepositoryStub, 'add').mockRejectedValueOnce(new Error())
         const response = sut.add(makeFakeTransaction())
         await expect(response).rejects.toThrow(new Error())
+    })
+
+    test('Should return status on success', async () => {
+        const { sut } = makeSut()
+        const response = await sut.add(makeFakeTransaction())
+        expect(response).toEqual(makeFakeStatus())
     })
 });
