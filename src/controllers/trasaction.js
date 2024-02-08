@@ -1,6 +1,7 @@
 class TransactionController {
     handle(httpRequest) {
-        return 400
+        const requiredFields = ['valor', 'tipo']
+        for(const field of requiredFields) if(!httpRequest[field]) return 400
     }
 }
 
