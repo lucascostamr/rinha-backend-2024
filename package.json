@@ -1,0 +1,12 @@
+{
+  "name": "rinha-backend-2024",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mongo-init.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
