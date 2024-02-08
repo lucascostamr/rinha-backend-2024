@@ -36,4 +36,31 @@ describe('Transaction Controller', () => {
         const httpResponse = sut.handle(httpRequest)
         expect(httpResponse).toBe(400)
     })
+    
+    test('Should call AddTrasactionRepository with correct values', () => {
+        class AddTransactionRepositoryStub {
+            async add() {
+                return new Promise(resolve => resolve('Transaction added'))
+            }
+        }
+        
+        const addTransactionRepositoryStub = new AddTransactionRepositoryStub()
+        const sut = new TransactionController(addTransactionRepositoryStub)
+
+        const addSpy = jest.spyOn(addTransactionRepositoryStub, 'add')
+
+        const httpRequest = {
+            valor: "any_valor",
+            tipo: "any_tipo",
+            descricao: "descricao"
+        }
+
+        sut.handle(httpRequest)
+
+        expect(addSpy).toHaveBeenCalledWith({
+            valor: "any_valor",
+            tipo: "any_tipo",
+            descricao: "descricao"
+        })
+    })
 });
