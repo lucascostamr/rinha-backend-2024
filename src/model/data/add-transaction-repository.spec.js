@@ -31,4 +31,11 @@ describe('Add Transaction Repository', () => {
         await sut.add(makeFakeTransaction())
         expect(addSpy).toHaveBeenCalledWith(makeFakeTransaction())
     })
+
+    test('Should throw if TransactionRepository throws', async () => {
+        const { sut, transactionRepositoryStub } = makeSut()
+        jest.spyOn(transactionRepositoryStub, 'add').mockRejectedValueOnce(new Error())
+        const response = sut.add(makeFakeTransaction())
+        await expect(response).rejects.toThrow(new Error())
+    })
 });
