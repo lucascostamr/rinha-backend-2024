@@ -37,7 +37,7 @@ describe('Transaction Controller', () => {
         expect(httpResponse).toBe(400)
     })
     
-    test('Should call AddTrasactionRepository with correct values', () => {
+    test('Should call AddTransactionRepository with correct values', () => {
         class AddTransactionRepositoryStub {
             async add() {
                 return new Promise(resolve => resolve('Transaction added'))
