@@ -4,7 +4,8 @@ class AddTransactionRepository {
     }
 
     async add (transaction) {
-        await this.transactionRepository.add(transaction)
+        const status = await this.transactionRepository.add(transaction)
+        return status;
     }
 }
 
