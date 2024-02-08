@@ -24,4 +24,16 @@ describe('Transaction Controller', () => {
         const httpResponse = sut.handle(httpRequest)
         expect(httpResponse).toBe(400)
     })
+
+    test('Should return 400 if descricao is not provided', () => {
+        const sut = new TransactionController()
+
+        const httpRequest = {
+            valor: "any_valor",
+            tipo: "any_tipo"
+        }
+
+        const httpResponse = sut.handle(httpRequest)
+        expect(httpResponse).toBe(400)
+    })
 });
