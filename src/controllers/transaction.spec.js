@@ -16,6 +16,7 @@ const makeFakeStatus = () => ({
 
 const makeFakeRequest = () => ({
     body: {
+        client_id: "any_id",
         valor: "any_valor",
         tipo: "any_tipo",
         descricao: "descricao"
@@ -32,10 +33,24 @@ const makeSut = () => {
 }
 
 describe('Transaction Controller', () => {
+    test('Should return 400 if client_id is not provided', async () => {
+        const { sut } = makeSut()
+        const httpRequest = {
+            body: {
+                valor: "any_valor",
+                tipo: "any_tipo",
+                descricao: "any_descricao"
+            }
+        }
+        const httpResponse = await sut.handle(httpRequest)
+        expect(httpResponse.statusCode).toBe(400)
+    })
+
     test('Should return 400 if valor is not provided', async () => {
         const { sut } = makeSut()
         const httpRequest = {
             body: {
+                client_id: "any_id",
                 tipo: "any_tipo",
                 descricao: "any_descricao"
             }
@@ -48,6 +63,7 @@ describe('Transaction Controller', () => {
         const { sut } = makeSut()
         const httpRequest = {
             body: {
+                client_id: "any_id",
                 valor: "any_valor",
                 descricao: "any_descricao"
             }
@@ -60,6 +76,7 @@ describe('Transaction Controller', () => {
         const { sut } = makeSut()
         const httpRequest = {
             body: {
+                client_id: "any_id",
                 valor: "any_valor",
                 tipo: "any_tipo"
             }
