@@ -52,6 +52,12 @@ describe('Make Transaction Repository', () => {
         await expect(response).rejects.toThrow(new Error())
     })
 
+    test('Should throw if no transaction is provided', async () => {
+        const { sut } = makeSut()
+        const response = sut.make({})
+        await expect(response).rejects.toThrow(new Error())
+    })
+
     test('Should return status on success', async () => {
         const { sut } = makeSut()
         const response = await sut.make(makeFakeTransaction())
