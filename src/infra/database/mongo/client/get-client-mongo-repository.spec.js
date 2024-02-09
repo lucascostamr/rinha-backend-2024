@@ -1,5 +1,5 @@
-const MongoHelper = require('./helpers/mongo-helper')
-const ClientMongoRepository = require('./client-mongo-repository')
+const MongoHelper = require('../helpers/mongo-helper')
+const GetClientMongoRepository = require('./get-client-mongo-repository')
 
 describe('Mongo Transaction Repository', () => {
     beforeAll(async () => {
@@ -19,7 +19,7 @@ describe('Mongo Transaction Repository', () => {
     })
 
     test('Should return a client on success', async () => {
-        const sut = new ClientMongoRepository()
+        const sut = new GetClientMongoRepository()
         const clientId = 1
         const client = await sut.get(clientId)
         expect(client.id).toBe(1)

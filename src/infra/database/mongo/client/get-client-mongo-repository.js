@@ -1,6 +1,6 @@
-const MongoHelper = require('./helpers/mongo-helper')
+const MongoHelper = require('../helpers/mongo-helper')
 
-class ClientMongoRepository {
+class GetClientMongoRepository {
     async get(clientId) {
         const clientCollection = MongoHelper.getCollection('clients')
         const client = await clientCollection.findOne({ id: clientId })
@@ -8,4 +8,4 @@ class ClientMongoRepository {
     }
 }
 
-module.exports = ClientMongoRepository
+module.exports = GetClientMongoRepository
