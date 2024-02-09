@@ -4,6 +4,7 @@ services:
   api01: &api
     build: .
     hostname: api01
+    container_name: api1
     environment:
       - MONGO_URI=mongodb://db:27017/rinha
       - PORT=3000
@@ -22,6 +23,7 @@ services:
   
   api02:
     <<: *api
+    container_name: ap2
     hostname: api02
     ports:
       - "3001:3001"
