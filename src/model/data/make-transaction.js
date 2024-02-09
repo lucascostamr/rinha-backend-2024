@@ -6,6 +6,9 @@ class MakeTransaction {
     }
 
     async make (transaction) {
+        if(!transaction || Object.keys(transaction).length === 0) {
+            return new Promise((resolve, reject) => reject(new Error()))
+        }
         const { client_id, valor, tipo } = transaction
         const { limite, saldo_inicial} = await this.clientRepository.get(client_id)
         switch (tipo) {
