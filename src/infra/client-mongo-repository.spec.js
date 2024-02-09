@@ -1,12 +1,5 @@
 const MongoHelper = require('./helpers/mongo-helper')
-const MongoTransactioRepository = require('./mongo-transaction-repository')
-
-const makeFakeTransaction = () => ({
-    client_id: 1,
-    valor: 0,
-    tipo: "c",
-    descricao: "descricao"
-})
+const ClientMongoRepository = require('./client-mongo-repository')
 
 describe('Mongo Transaction Repository', () => {
     beforeAll(async () => {
@@ -24,14 +17,11 @@ describe('Mongo Transaction Repository', () => {
         await clientCollection.deleteMany({})
         await MongoHelper.disconnect()
     })
-    test('Should return status on success', async () => {
-        const sut = new MongoTransactioRepository()
 
-        const response = await sut.make(makeFakeTransaction())
-
-        expect(response).toEqual({
-            limite : 100000,
-            saldo : 0
-        })
+    test('Should return a client on success', async () => {
+        const sut = new ClientMongoRepository()
+        const clientId = 1
+        const client = await sut.get(clientId)
+        expect(client.id).toBe(1)
     })
 });
