@@ -1,5 +1,15 @@
 const TransactionController = require('./trasaction.js')
 
+const makeSaveTransaction = () => {
+    class SaveTransactionStub {
+        async save() {
+            return new Promise(resolve => resolve(makeFakeRequest().body))
+        }
+    }
+
+    return new SaveTransactionStub()
+}
+
 const makeMakeTransaction = () => {
     class MakeTransactionStub {
         async make() {
@@ -10,8 +20,8 @@ const makeMakeTransaction = () => {
 }
 
 const makeFakeStatus = () => ({
-    "limite" : 100000,
-    "saldo" : -9098
+    limite : "any_limite",
+    saldo : "any_saldo"
 })
 
 const makeFakeRequest = () => ({
@@ -25,10 +35,12 @@ const makeFakeRequest = () => ({
 
 const makeSut = () => {
     const makeTransactionStub = makeMakeTransaction()
-    const sut = new TransactionController(makeTransactionStub)
+    const saveTransactionStub = makeSaveTransaction()
+    const sut = new TransactionController(makeTransactionStub, saveTransactionStub)
     return {
         sut,
-        makeTransactionStub
+        makeTransactionStub,
+        saveTransactionStub
     }
 }
 
@@ -97,6 +109,13 @@ describe('Transaction Controller', () => {
         jest.spyOn(makeTransactionStub, 'make').mockRejectedValueOnce(new Error())
         const httpResponse = await sut.handle(makeFakeRequest())
         expect(httpResponse.statusCode).toBe(500)
+    })
+
+    test('Should call SaveTransaction with correct values', async () => {
+        const { sut, saveTransactionStub } = makeSut()
+        const saveSpy = jest.spyOn(saveTransactionStub, 'save')
+        await sut.handle(makeFakeRequest())
+        expect(saveSpy).toHaveBeenCalledWith(makeFakeRequest().body)
     })
 
     test('Should return status on success', async () => {
