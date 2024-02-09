@@ -1,12 +1,12 @@
 const TransactionController = require('./trasaction.js')
 
-const makeAddTransactionRepository = () => {
-    class AddTransactionRepositoryStub {
-        async add() {
+const makeMakeTransaction = () => {
+    class MakeTransactionStub {
+        async make() {
             return new Promise(resolve => resolve(makeFakeStatus()))
         }
     }
-    return new AddTransactionRepositoryStub()
+    return new MakeTransactionStub()
 }
 
 const makeFakeStatus = () => ({
@@ -24,11 +24,11 @@ const makeFakeRequest = () => ({
 })
 
 const makeSut = () => {
-    const addTransactionRepositoryStub = makeAddTransactionRepository()
-    const sut = new TransactionController(addTransactionRepositoryStub)
+    const makeTransactionStub = makeMakeTransaction()
+    const sut = new TransactionController(makeTransactionStub)
     return {
         sut,
-        addTransactionRepositoryStub
+        makeTransactionStub
     }
 }
 
@@ -85,16 +85,16 @@ describe('Transaction Controller', () => {
         expect(httpResponse.statusCode).toBe(400)
     })
     
-    test('Should call AddTransactionRepository with correct values', async () => {
-        const { sut, addTransactionRepositoryStub } = makeSut()
-        const addSpy = jest.spyOn(addTransactionRepositoryStub, 'add')
+    test('Should call MakeTransaction with correct values', async () => {
+        const { sut, makeTransactionStub } = makeSut()
+        const makeSpy = jest.spyOn(makeTransactionStub, 'make')
         await sut.handle(makeFakeRequest())
-        expect(addSpy).toHaveBeenCalledWith(makeFakeRequest().body)
+        expect(makeSpy).toHaveBeenCalledWith(makeFakeRequest().body)
     })
 
-    test('Should return 500 if AddTransactionRepository throws', async () => {
-        const { sut, addTransactionRepositoryStub } = makeSut()
-        jest.spyOn(addTransactionRepositoryStub, 'add').mockRejectedValueOnce(new Error())
+    test('Should return 500 if MakeTransaction throws', async () => {
+        const { sut, makeTransactionStub } = makeSut()
+        jest.spyOn(makeTransactionStub, 'make').mockRejectedValueOnce(new Error())
         const httpResponse = await sut.handle(makeFakeRequest())
         expect(httpResponse.statusCode).toBe(500)
     })
