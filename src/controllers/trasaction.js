@@ -6,10 +6,11 @@ class TransactionController {
 
     async handle(httpRequest) {
         try {
+            const transaction = structuredClone(httpRequest.body)
             const requiredFields = ['client_id', 'valor', 'tipo', 'descricao']
-            for(const field of requiredFields) if(!httpRequest.body[field]) return { statusCode: 400}
-            const status = await this.makeTransaction.make(httpRequest.body)
-            await this.saveTransaction.save(httpRequest.body)
+            for(const field of requiredFields) if(!transaction[field]) return { statusCode: 400 }
+            const status = await this.makeTransaction.make(transaction)
+            await this.saveTransaction.save(transaction)
             return {
                 statusCode: 200,
                 body: status
