@@ -10,22 +10,22 @@ const makeAddRepository = () => {
 }
 
 const makeFakeTransaction = () => ({
-    client_id: "any_id",
-    valor: "any_valor",
-    tipo: "any_tipo",
+    client_id: 1,
+    valor: 1,
+    tipo: "c",
     descricao: "descricao"
 })
 
 const makeFakeClient = () => ({
-    _id: 'any_id',
-    id: 'any_id',
-    limite: 'any_limit',
-    saldo_inicial: 'any_saldo'
+    _id: 1,
+    id: 1,
+    limite: 1,
+    saldo_inicial: 0
 })
 
 const makeFakeStatus = () => ({
-    limite: "any_limite",
-    saldo: "any_saldo"
+    limite: 0,
+    saldo: 0
 })
 
 const makeSut = () => {
