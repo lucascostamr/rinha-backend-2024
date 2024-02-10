@@ -58,6 +58,13 @@ describe('Make Transaction Repository', () => {
         await expect(response).rejects.toThrow(new Error())
     })
 
+    // test('Should throw if MakeTras', async () => {
+    //     const { sut, updateClientRepositoryStub } = makeSut()
+    //     const updateSpy = jest.spyOn(updateClientRepositoryStub, 'update')
+    //     await sut.make(makeFakeTransaction())
+    //     expect(updateSpy).toHaveBeenCalledWith()
+    // })
+
     test('Should return status on success', async () => {
         const { sut } = makeSut()
         const response = await sut.make(makeFakeTransaction())

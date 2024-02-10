@@ -1,5 +1,6 @@
 const TransactionController = require('./trasaction.js')
-const { badRequest, ok, serverError } = require('../helpers/http')
+const { badRequest, ok, serverError, transactionError } = require('../helpers/http')
+const TransactionError = require('../errors/transaction-error')
 
 const makeSaveTransaction = () => {
     class SaveTransactionStub {
@@ -105,7 +106,14 @@ describe('Transaction Controller', () => {
         expect(makeSpy).toHaveBeenCalledWith(makeFakeRequest().body)
     })
 
-    test('Should return 500 if MakeTransaction throws', async () => {
+    test('Should return 422 if MakeTransaction throws TransactionError', async () => {
+        const { sut, makeTransactionStub } = makeSut()
+        jest.spyOn(makeTransactionStub, 'make').mockRejectedValueOnce(new TransactionError())
+        const httpResponse = await sut.handle(makeFakeRequest())
+        expect(httpResponse.statusCode).toEqual(transactionError().statusCode)
+    })
+
+    test('Should return 500 if MakeTransaction throws common error', async () => {
         const { sut, makeTransactionStub } = makeSut()
         jest.spyOn(makeTransactionStub, 'make').mockRejectedValueOnce(new Error())
         const httpResponse = await sut.handle(makeFakeRequest())

@@ -1,3 +1,5 @@
+const TransactionError = require('../../../errors/transaction-error')
+
 class MakeTransaction {
     _limite
     _saldo
@@ -14,12 +16,15 @@ class MakeTransaction {
         switch (tipo) {
             case "c":
                 this._limite = +limite - (+valor)
-                this._saldo = saldo_inicial
+                this._saldo = +saldo_inicial
                 break;
             case "d":
                 this._saldo = +saldo_inicial - (+valor)
-                this._limite = limite
+                this._limite = +limite
                 break;
+        }
+        if(this._saldo < (-this._limite)) {
+            return new Promise((resolve, reject) => reject(new TransactionError('Transaction below limit')))
         }
         return {
             limite: this._limite,
