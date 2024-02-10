@@ -1,4 +1,5 @@
 const TransactionController = require('./trasaction.js')
+const { badRequest, ok, serverError } = require('../helpers/http')
 
 const makeSaveTransaction = () => {
     class SaveTransactionStub {
@@ -55,7 +56,7 @@ describe('Transaction Controller', () => {
             }
         }
         const httpResponse = await sut.handle(httpRequest)
-        expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse).toEqual(badRequest())
     })
 
     test('Should return 400 if valor is not provided', async () => {
@@ -68,7 +69,7 @@ describe('Transaction Controller', () => {
             }
         }
         const httpResponse = await sut.handle(httpRequest)
-        expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse).toEqual(badRequest())
     })
 
     test('Should return 400 if tipo is not provided', async () => {
@@ -81,7 +82,7 @@ describe('Transaction Controller', () => {
             }
         }
         const httpResponse = await sut.handle(httpRequest)
-        expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse).toEqual(badRequest())
     })
 
     test('Should return 400 if descricao is not provided', async () => {
@@ -94,7 +95,7 @@ describe('Transaction Controller', () => {
             }
         }
         const httpResponse = await sut.handle(httpRequest)
-        expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse).toEqual(badRequest())
     })
     
     test('Should call MakeTransaction with correct values', async () => {
@@ -108,7 +109,7 @@ describe('Transaction Controller', () => {
         const { sut, makeTransactionStub } = makeSut()
         jest.spyOn(makeTransactionStub, 'make').mockRejectedValueOnce(new Error())
         const httpResponse = await sut.handle(makeFakeRequest())
-        expect(httpResponse.statusCode).toBe(500)
+        expect(httpResponse).toEqual(serverError())
     })
 
     test('Should call SaveTransaction with correct values', async () => {

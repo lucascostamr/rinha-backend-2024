@@ -1,8 +1,8 @@
 class MakeTransaction {
     _limite
     _saldo
-    constructor(clientRepository) {
-        this.clientRepository = clientRepository
+    constructor(getClientRepository) {
+        this.getClientRepository = getClientRepository
     }
 
     async make (transaction) {
@@ -10,7 +10,7 @@ class MakeTransaction {
             return new Promise((resolve, reject) => reject(new Error()))
         }
         const { client_id, valor, tipo } = transaction
-        const { limite, saldo_inicial} = await this.clientRepository.get(client_id)
+        const { limite, saldo_inicial } = await this.getClientRepository.get(client_id)
         switch (tipo) {
             case "c":
                 this._limite = +limite - (+valor)
