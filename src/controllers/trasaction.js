@@ -1,4 +1,4 @@
-const { badRequest, ok, serverError } = require('../helpers/http')
+const { badRequest, ok, serverError, transactionError } = require('../helpers/http')
 
 class TransactionController {
     constructor(makeTransaction, saveTransaction) {
@@ -15,6 +15,7 @@ class TransactionController {
             await this.saveTransaction.save(transaction)
             return ok(status)
         } catch (error) {
+            if(error.name === 'TransactionError') return transactionError(error.message)
             return serverError();
         }
     }
