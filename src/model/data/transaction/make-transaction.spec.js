@@ -10,9 +10,9 @@ const makeAddRepository = () => {
     return new ClientRepositoryStub()
 }
 
-const makeSaveTransaction = () => {
+const makeUpdateClientRepository = () => {
     class UpdateClientRepositoryStub {
-        async save () {
+        async update () {
             return new Promise(resolve => resolve({
                 id: 1,
                 limite: 1,
@@ -44,7 +44,7 @@ const makeFakeStatus = () => ({
 
 const makeSut = () => {
     const clientRepositoryStub = makeAddRepository()
-    const updateClientRepositoryStub = makeSaveTransaction()
+    const updateClientRepositoryStub = makeUpdateClientRepository()
     const sut = new MakeTransaction(clientRepositoryStub, updateClientRepositoryStub)
     return {
         sut,
@@ -87,13 +87,20 @@ describe('Make Transaction Repository', () => {
 
     test('Should call SaveTransaction with correct values', async () => {
         const { sut, updateClientRepositoryStub } = makeSut()
-        const saveSpy = jest.spyOn(updateClientRepositoryStub, 'save')
+        const saveSpy = jest.spyOn(updateClientRepositoryStub, 'update')
         await sut.make(makeFakeTransaction())
         expect(saveSpy).toHaveBeenCalledWith({
             id: 1,
             saldo: 0,
             limite: 0
         })
+    })
+
+    test('Should throw if updateClientRepository throws', async () => {
+        const { sut, updateClientRepositoryStub } = makeSut()
+        jest.spyOn(updateClientRepositoryStub, 'update').mockRejectedValueOnce(new Error())
+        const response = sut.make(makeFakeTransaction())
+        await expect(response).rejects.toThrow(new Error())
     })
 
     test('Should return status on success', async () => {

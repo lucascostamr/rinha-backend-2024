@@ -32,7 +32,7 @@ class MakeTransaction {
             limite: this._limite,
             saldo: this._saldo
         }
-        await this.updateClientRepository.save(client)
+        await this.updateClientRepository.update(client)
         return {
             limite: this._limite,
             saldo: this._saldo
