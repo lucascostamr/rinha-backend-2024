@@ -3,8 +3,9 @@ const TransactionError = require('../../../errors/transaction-error')
 class MakeTransaction {
     _limite
     _saldo
-    constructor(getClientRepository) {
+    constructor(getClientRepository, updateClientRepository) {
         this.getClientRepository = getClientRepository
+        this.updateClientRepository = updateClientRepository
     }
 
     async make (transaction) {
@@ -26,6 +27,12 @@ class MakeTransaction {
         if(this._saldo < (-this._limite)) {
             throw new TransactionError('Transaction below limit')
         }
+        const client = {
+            id: client_id,
+            limite: this._limite,
+            saldo: this._saldo
+        }
+        await this.updateClientRepository.save(client)
         return {
             limite: this._limite,
             saldo: this._saldo
