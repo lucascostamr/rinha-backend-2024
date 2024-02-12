@@ -30,4 +30,15 @@ describe('Update Client Mongo Repository', () => {
     const response = sut.update()
     await expect(response).rejects.toThrow(new MissingParamError('client'))
   })
+  
+  test('Should return matchedCount on success', async () => {
+    const sut = new UpdateClientRepository()
+    const client = {
+      id: 1,
+      limite: 1,
+      saldo: 0
+    }
+    const response = await sut.update(client)
+    expect(response.matchedCount).toBe(1);
+  })
 });
