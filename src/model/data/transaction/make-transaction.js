@@ -33,10 +33,11 @@ class MakeTransaction {
             saldo: this._saldo
         }
         await this.updateClientRepository.update(client)
-        return {
+        const status = {
             limite: this._limite,
             saldo: this._saldo
         };
+        return status
     }
 }
 
