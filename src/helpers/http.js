@@ -8,6 +8,11 @@ const transactionError = (error) => ({
     body: error
 })
 
+const clientNotFoundError = (error) => ({
+    statusCode: 404,
+    body: error
+})
+
 const serverError = (error) => ({
     statusCode: 500,
     body: error
@@ -21,6 +26,7 @@ const ok = (message) => ({
 module.exports = {
     badRequest,
     transactionError,
+    clientNotFoundError,
     serverError,
     ok
 }

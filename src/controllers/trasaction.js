@@ -1,4 +1,4 @@
-const { badRequest, ok, serverError, transactionError } = require('../helpers/http')
+const { badRequest, ok, serverError, transactionError, clientNotFoundError } = require('../helpers/http')
 
 class TransactionController {
     constructor(makeTransaction, saveTransaction) {
@@ -16,6 +16,7 @@ class TransactionController {
             return ok(status)
         } catch (error) {
             if(error.name === 'TransactionError') return transactionError(error.message)
+            if(error.name === 'ClientNotFoundError') return clientNotFoundError(error.message)
             return serverError();
         }
     }
