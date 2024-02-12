@@ -1,6 +1,7 @@
 const TransactionController = require('./trasaction.js')
-const { badRequest, ok, serverError, transactionError } = require('../helpers/http')
+const { badRequest, ok, serverError, transactionError, clientNotFoundError } = require('../helpers/http')
 const TransactionError = require('../errors/transaction-error')
+const ClientNotFoundError = require('../errors/client-not-found.js')
 
 const makeSaveTransaction = () => {
     class SaveTransactionStub {
@@ -106,11 +107,11 @@ describe('Transaction Controller', () => {
         expect(makeSpy).toHaveBeenCalledWith(makeFakeRequest().body)
     })
 
-    test('Should return 422 if MakeTransaction throws TransactionError', async () => {
+    test('Should return 422 if MakeTransaction catch TransactionError', async () => {
         const { sut, makeTransactionStub } = makeSut()
         jest.spyOn(makeTransactionStub, 'make').mockRejectedValueOnce(new TransactionError())
         const httpResponse = await sut.handle(makeFakeRequest())
-        expect(httpResponse.statusCode).toEqual(transactionError().statusCode)
+        expect(httpResponse.statusCode).toBe(transactionError().statusCode)
     })
 
     test('Should return 500 if MakeTransaction throws common error', async () => {
@@ -118,6 +119,13 @@ describe('Transaction Controller', () => {
         jest.spyOn(makeTransactionStub, 'make').mockRejectedValueOnce(new Error())
         const httpResponse = await sut.handle(makeFakeRequest())
         expect(httpResponse).toEqual(serverError())
+    })
+
+    test('Should return 404 if MakeTransaction catch ClientNotFoundError', async () => {
+        const { sut, makeTransactionStub } = makeSut()
+        jest.spyOn(makeTransactionStub, 'make').mockRejectedValueOnce(new ClientNotFoundError())
+        const httpResponse = await sut.handle(makeFakeRequest())
+        expect(httpResponse.statusCode).toBe(clientNotFoundError().statusCode)
     })
 
     test('Should call SaveTransaction with correct values', async () => {
