@@ -1,25 +1,23 @@
+const { badRequest, serverError, transactionError, clientNotFoundError } = require('../helpers/http')
+const { TransactionError, ClientNotFoundError, MissingParamError } = require('../errors/index')
 const TransactionController = require('./trasaction.js')
-const { badRequest, ok, serverError, transactionError, clientNotFoundError } = require('../helpers/http')
-const TransactionError = require('../errors/transaction-error')
-const ClientNotFoundError = require('../errors/client-not-found.js')
 
-const makeSaveTransaction = () => {
-    class SaveTransactionStub {
+const makeSaveTransactionModel = () => {
+    class SaveTransactionModelStub {
         async save() {
             return new Promise(resolve => resolve(makeFakeRequest().body))
         }
     }
-
-    return new SaveTransactionStub()
+    return new SaveTransactionModelStub()
 }
 
-const makeMakeTransaction = () => {
-    class MakeTransactionStub {
+const makeMakeTransactionModel = () => {
+    class makeTransactionModelStub {
         async make() {
             return new Promise(resolve => resolve(makeFakeStatus()))
         }
     }
-    return new MakeTransactionStub()
+    return new makeTransactionModelStub()
 }
 
 const makeFakeStatus = () => ({
@@ -37,13 +35,13 @@ const makeFakeRequest = () => ({
 })
 
 const makeSut = () => {
-    const makeTransactionStub = makeMakeTransaction()
-    const saveTransactionStub = makeSaveTransaction()
-    const sut = new TransactionController(makeTransactionStub, saveTransactionStub)
+    const makeTransactionModelStub = makeMakeTransactionModel()
+    const saveTransactionModelStub = makeSaveTransactionModel()
+    const sut = new TransactionController(makeTransactionModelStub, saveTransactionModelStub)
     return {
         sut,
-        makeTransactionStub,
-        saveTransactionStub
+        makeTransactionModelStub,
+        saveTransactionModelStub
     }
 }
 
@@ -58,7 +56,7 @@ describe('Transaction Controller', () => {
             }
         }
         const httpResponse = await sut.handle(httpRequest)
-        expect(httpResponse).toEqual(badRequest())
+        expect(httpResponse).toEqual(badRequest(new MissingParamError('client_id')))
     })
 
     test('Should return 400 if valor is not provided', async () => {
@@ -71,7 +69,7 @@ describe('Transaction Controller', () => {
             }
         }
         const httpResponse = await sut.handle(httpRequest)
-        expect(httpResponse).toEqual(badRequest())
+        expect(httpResponse).toEqual(badRequest(new MissingParamError('valor')))
     })
 
     test('Should return 400 if tipo is not provided', async () => {
@@ -84,7 +82,7 @@ describe('Transaction Controller', () => {
             }
         }
         const httpResponse = await sut.handle(httpRequest)
-        expect(httpResponse).toEqual(badRequest())
+        expect(httpResponse).toEqual(badRequest(new MissingParamError('tipo')))
     })
 
     test('Should return 400 if descricao is not provided', async () => {
@@ -97,40 +95,40 @@ describe('Transaction Controller', () => {
             }
         }
         const httpResponse = await sut.handle(httpRequest)
-        expect(httpResponse).toEqual(badRequest())
+        expect(httpResponse).toEqual(badRequest(new MissingParamError('descricao')))
     })
     
-    test('Should call MakeTransaction with correct values', async () => {
-        const { sut, makeTransactionStub } = makeSut()
-        const makeSpy = jest.spyOn(makeTransactionStub, 'make')
+    test('Should call MakeTransactionModel with correct values', async () => {
+        const { sut, makeTransactionModelStub } = makeSut()
+        const makeSpy = jest.spyOn(makeTransactionModelStub, 'make')
         await sut.handle(makeFakeRequest())
         expect(makeSpy).toHaveBeenCalledWith(makeFakeRequest().body)
     })
 
-    test('Should return 422 if MakeTransaction catch TransactionError', async () => {
-        const { sut, makeTransactionStub } = makeSut()
-        jest.spyOn(makeTransactionStub, 'make').mockRejectedValueOnce(new TransactionError())
+    test('Should return 422 if MakeTransactionModel catch TransactionError', async () => {
+        const { sut, makeTransactionModelStub } = makeSut()
+        jest.spyOn(makeTransactionModelStub, 'make').mockRejectedValueOnce(new TransactionError())
         const httpResponse = await sut.handle(makeFakeRequest())
         expect(httpResponse.statusCode).toBe(transactionError().statusCode)
     })
 
-    test('Should return 500 if MakeTransaction throws common error', async () => {
-        const { sut, makeTransactionStub } = makeSut()
-        jest.spyOn(makeTransactionStub, 'make').mockRejectedValueOnce(new Error())
+    test('Should return 500 if MakeTransactionModel throws', async () => {
+        const { sut, makeTransactionModelStub } = makeSut()
+        jest.spyOn(makeTransactionModelStub, 'make').mockRejectedValueOnce(new Error())
         const httpResponse = await sut.handle(makeFakeRequest())
         expect(httpResponse).toEqual(serverError())
     })
 
-    test('Should return 404 if MakeTransaction catch ClientNotFoundError', async () => {
-        const { sut, makeTransactionStub } = makeSut()
-        jest.spyOn(makeTransactionStub, 'make').mockRejectedValueOnce(new ClientNotFoundError())
+    test('Should return 404 if MakeTransactionModel catch ClientNotFoundError', async () => {
+        const { sut, makeTransactionModelStub } = makeSut()
+        jest.spyOn(makeTransactionModelStub, 'make').mockRejectedValueOnce(new ClientNotFoundError())
         const httpResponse = await sut.handle(makeFakeRequest())
         expect(httpResponse.statusCode).toBe(clientNotFoundError().statusCode)
     })
 
-    test('Should call SaveTransaction with correct values', async () => {
-        const { sut, saveTransactionStub } = makeSut()
-        const saveSpy = jest.spyOn(saveTransactionStub, 'save')
+    test('Should call SaveTransactionModel with correct values', async () => {
+        const { sut, saveTransactionModelStub } = makeSut()
+        const saveSpy = jest.spyOn(saveTransactionModelStub, 'save')
         await sut.handle(makeFakeRequest())
         expect(saveSpy).toHaveBeenCalledWith(makeFakeRequest().body)
     })

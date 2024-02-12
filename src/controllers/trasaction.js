@@ -1,18 +1,19 @@
 const { badRequest, ok, serverError, ...helpers } = require('../helpers/http')
+const MissingParamError = require('../errors/missing-param-error')
 
 class TransactionController {
-    constructor(makeTransaction, saveTransaction) {
-        this.makeTransaction = makeTransaction
-        this.saveTransaction = saveTransaction
+    constructor(makeTransactionModel, saveTransactionModel) {
+        this.makeTransactionModel = makeTransactionModel
+        this.saveTransactionModel = saveTransactionModel
     }
 
     async handle(httpRequest) {
         try {
             const transaction = structuredClone(httpRequest.body)
             const requiredFields = ['client_id', 'valor', 'tipo', 'descricao']
-            for(const field of requiredFields) if(!transaction[field]) return badRequest()
-            const status = await this.makeTransaction.make(transaction)
-            await this.saveTransaction.save(transaction)
+            for(const field of requiredFields) if(!transaction[field]) return badRequest(new MissingParamError(field))
+            const status = await this.makeTransactionModel.make(transaction)
+            await this.saveTransactionModel.save(transaction)
             return ok(status)
         } catch (error) {
             const errorTypes = ['TransactionError', 'ClientNotFoundError']
