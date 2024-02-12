@@ -1,7 +1,7 @@
 const TransactionError = require('../../../errors/transaction-error')
 const MakeTransaction = require('./make-transaction')
 
-const makeAddRepository = () => {
+const makeClientRepository = () => {
     class ClientRepositoryStub {
         async get () {
             return new Promise(resolve => resolve(makeFakeClient()))
@@ -43,7 +43,7 @@ const makeFakeStatus = () => ({
 })
 
 const makeSut = () => {
-    const clientRepositoryStub = makeAddRepository()
+    const clientRepositoryStub = makeClientRepository()
     const updateClientRepositoryStub = makeUpdateClientRepository()
     const sut = new MakeTransaction(clientRepositoryStub, updateClientRepositoryStub)
     return {
@@ -85,7 +85,7 @@ describe('Make Transaction Repository', () => {
         await expect(response).rejects.toThrow(new TransactionError('Transaction below limit'))
     })
 
-    test('Should call SaveTransaction with correct values', async () => {
+    test('Should call UpdateClientRepository with correct values', async () => {
         const { sut, updateClientRepositoryStub } = makeSut()
         const saveSpy = jest.spyOn(updateClientRepositoryStub, 'update')
         await sut.make(makeFakeTransaction())
