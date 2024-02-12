@@ -6,6 +6,9 @@ const GetClientMongoRepository = require('./get-client-mongo-repository')
 describe('Mongo Transaction Repository', () => {
     beforeAll(async () => {
         await MongoHelper.connect(process.env.MONGO_URI)
+    })
+    
+    beforeEach( async () => {
         const clientCollection = MongoHelper.getCollection('clients')
         await clientCollection.insertOne({
             id: 1,
@@ -14,9 +17,12 @@ describe('Mongo Transaction Repository', () => {
         })
     })
     
-    afterAll(async () => {
+    afterEach(async () => {
         const clientCollection = MongoHelper.getCollection('clients')
         await clientCollection.deleteMany({})
+    })
+
+    afterAll(async () => {
         await MongoHelper.disconnect()
     })
 
