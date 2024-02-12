@@ -1,6 +1,6 @@
 const TransactionError = require('../../../errors/transaction-error')
 
-class MakeTransaction {
+class MakeTransactionModel {
     _limite
     _saldo
     constructor(getClientRepository, updateClientRepository) {
@@ -10,7 +10,7 @@ class MakeTransaction {
 
     async make (transaction) {
         if(!transaction || Object.keys(transaction).length === 0) {
-            return new Promise((resolve, reject) => reject(new Error()))
+            throw new Error()
         }
         const { client_id, valor, tipo } = transaction
         const { limite, saldo_inicial } = await this.getClientRepository.get(client_id)
@@ -41,4 +41,4 @@ class MakeTransaction {
     }
 }
 
-module.exports = MakeTransaction
+module.exports = MakeTransactionModel
