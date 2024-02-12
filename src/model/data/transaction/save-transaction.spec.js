@@ -43,6 +43,13 @@ describe('Save Transaction', () => {
     await sut.save(makeFakeTransaction())
     expect(addSpy).toHaveBeenCalledWith(makeFakeTransaction())
   })
+
+  test('Should throw if AddTransactionStub throw', async () => {
+    const { sut, addTransactionRepositoryStub } = makeSut()
+    jest.spyOn(addTransactionRepositoryStub, 'add').mockRejectedValueOnce(new Error())
+    const response = sut.save(makeFakeTransaction())
+    await expect(response).rejects.toThrow(new Error())
+  })
   
   test('Should return client last transactions on success', async () => {
     const { sut } = makeSut()
