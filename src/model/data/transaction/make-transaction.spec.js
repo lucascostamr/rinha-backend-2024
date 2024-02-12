@@ -10,6 +10,19 @@ const makeAddRepository = () => {
     return new ClientRepositoryStub()
 }
 
+const makeSaveTransaction = () => {
+    class UpdateClientRepositoryStub {
+        async save () {
+            return new Promise(resolve => resolve({
+                id: 1,
+                limite: 1,
+                saldo: 0
+            }))
+        }
+    }
+    return new UpdateClientRepositoryStub()
+}
+
 const makeFakeTransaction = () => ({
     client_id: 1,
     valor: 1,
@@ -31,10 +44,12 @@ const makeFakeStatus = () => ({
 
 const makeSut = () => {
     const clientRepositoryStub = makeAddRepository()
-    const sut = new MakeTransaction(clientRepositoryStub)
+    const updateClientRepositoryStub = makeSaveTransaction()
+    const sut = new MakeTransaction(clientRepositoryStub, updateClientRepositoryStub)
     return {
         sut,
-        clientRepositoryStub
+        clientRepositoryStub,
+        updateClientRepositoryStub
     }
 }
 
@@ -68,6 +83,17 @@ describe('Make Transaction Repository', () => {
             descricao: "descricao"
         })
         await expect(response).rejects.toThrow(new TransactionError('Transaction below limit'))
+    })
+
+    test('Should call SaveTransaction with correct values', async () => {
+        const { sut, updateClientRepositoryStub } = makeSut()
+        const saveSpy = jest.spyOn(updateClientRepositoryStub, 'save')
+        await sut.make(makeFakeTransaction())
+        expect(saveSpy).toHaveBeenCalledWith({
+            id: 1,
+            saldo: 0,
+            limite: 0
+        })
     })
 
     test('Should return status on success', async () => {
