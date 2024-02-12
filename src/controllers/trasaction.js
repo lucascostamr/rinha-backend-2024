@@ -1,4 +1,4 @@
-const { badRequest, ok, serverError, transactionError, clientNotFoundError } = require('../helpers/http')
+const { badRequest, ok, serverError, ...helpers } = require('../helpers/http')
 
 class TransactionController {
     constructor(makeTransaction, saveTransaction) {
@@ -15,8 +15,13 @@ class TransactionController {
             await this.saveTransaction.save(transaction)
             return ok(status)
         } catch (error) {
-            if(error.name === 'TransactionError') return transactionError(error.message)
-            if(error.name === 'ClientNotFoundError') return clientNotFoundError(error.message)
+            const errorTypes = ['TransactionError', 'ClientNotFoundError']
+            for(const type of errorTypes) {
+                if(error.name === type) {
+                    const helperName = `${error.name[0].toLowerCase()}${error.name.slice(1)}`
+                    return helpers[helperName](error.message)
+                }
+            }
             return serverError();
         }
     }
