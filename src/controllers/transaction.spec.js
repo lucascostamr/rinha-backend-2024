@@ -2,9 +2,9 @@ const { badRequest, serverError, transactionError, clientNotFoundError } = requi
 const { TransactionError, ClientNotFoundError, MissingParamError } = require('../errors/index')
 const TransactionController = require('./trasaction.js')
 
-const makeSaveTransactionModel = () => {
+const makeAddTransactionRepository = () => {
     class SaveTransactionModelStub {
-        async save() {
+        async add() {
             return new Promise(resolve => resolve(makeFakeRequest().body))
         }
     }
@@ -36,12 +36,12 @@ const makeFakeRequest = () => ({
 
 const makeSut = () => {
     const makeTransactionModelStub = makeMakeTransactionModel()
-    const saveTransactionModelStub = makeSaveTransactionModel()
-    const sut = new TransactionController(makeTransactionModelStub, saveTransactionModelStub)
+    const addTransactionRepositoryStub = makeAddTransactionRepository()
+    const sut = new TransactionController(makeTransactionModelStub, addTransactionRepositoryStub)
     return {
         sut,
         makeTransactionModelStub,
-        saveTransactionModelStub
+        addTransactionRepositoryStub
     }
 }
 
@@ -127,8 +127,8 @@ describe('Transaction Controller', () => {
     })
 
     test('Should call SaveTransactionModel with correct values', async () => {
-        const { sut, saveTransactionModelStub } = makeSut()
-        const saveSpy = jest.spyOn(saveTransactionModelStub, 'save')
+        const { sut, addTransactionRepositoryStub } = makeSut()
+        const saveSpy = jest.spyOn(addTransactionRepositoryStub, 'add')
         await sut.handle(makeFakeRequest())
         expect(saveSpy).toHaveBeenCalledWith(makeFakeRequest().body)
     })
