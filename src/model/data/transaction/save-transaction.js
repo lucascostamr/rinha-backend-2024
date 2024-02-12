@@ -1,5 +1,10 @@
 class SaveTransactionModel {
+  constructor(addTransactionStub) {
+    this.addTransactionStub = addTransactionStub
+  }
+
   async save(transaction) {
+    await this.addTransactionStub.add(transaction)
     return {
       ultimas_trasacoes: [
         {
