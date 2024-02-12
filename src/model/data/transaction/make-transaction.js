@@ -24,7 +24,7 @@ class MakeTransaction {
                 break;
         }
         if(this._saldo < (-this._limite)) {
-            return new Promise((resolve, reject) => reject(new TransactionError('Transaction below limit')))
+            throw new TransactionError('Transaction below limit')
         }
         return {
             limite: this._limite,
