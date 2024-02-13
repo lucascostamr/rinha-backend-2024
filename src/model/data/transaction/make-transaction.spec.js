@@ -71,7 +71,7 @@ describe('Make Transaction Repository', () => {
     test('Should throw if no transaction is provided', async () => {
         const { sut } = makeSut()
         const response = sut.make({})
-        await expect(response).rejects.toThrow(new Error())
+        await expect(response).rejects.toThrow(new TransactionError("No Transaction provided"))
     })
 
     test('Should throw if MakeTransaction saldo will be below limite', async () => {

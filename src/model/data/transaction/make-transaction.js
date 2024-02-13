@@ -10,7 +10,7 @@ class MakeTransactionModel {
 
     async make (transaction) {
         if(!transaction || Object.keys(transaction).length === 0) {
-            throw new Error()
+            throw new TransactionError('No Transaction provided')
         }
         const { client_id, valor, tipo } = transaction
         const { limite, saldo_inicial } = await this.getClientRepository.get(client_id)
