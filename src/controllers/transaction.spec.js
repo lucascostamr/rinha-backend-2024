@@ -1,6 +1,6 @@
 const { badRequest, serverError, transactionError, clientNotFoundError } = require('../helpers/http')
 const { TransactionError, ClientNotFoundError, MissingParamError } = require('../errors/index')
-const TransactionController = require('./trasaction.js')
+const TransactionController = require('./transaction.js')
 
 const makeAddTransactionRepository = () => {
     class SaveTransactionModelStub {
