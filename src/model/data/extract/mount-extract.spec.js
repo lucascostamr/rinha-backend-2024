@@ -1,7 +1,9 @@
+const MountExtractModel = require("./mount-extract");
+
 describe('Mount Extract Model', () => {
-  test('Should throw if no client is provided', async () => {
+  test('Should return null if no client is provided', () => {
     const sut = new MountExtractModel()
-    const response = sut.mount({})
-    await expect(response).rejects.toThrow()
+    const response = sut.mount()
+    expect(response).toBe(null)
   })
 });
