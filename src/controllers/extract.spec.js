@@ -13,8 +13,8 @@ const makeGetClientRepository = () => {
 
 const makeMountExtract = () => {
   class MountExtractStub {
-    async mount () {
-      return new Promise(resolve => resolve('extract'))
+    mount () {
+      return 'extract'
     }
   }
   return new MountExtractStub()
@@ -69,7 +69,7 @@ describe('Extract Controller', () => {
 
   test('Should return 500 if MountExtract throws', async () => {
     const { sut, mountExtractStub } = makeSut()
-    jest.spyOn(mountExtractStub, 'mount').mockRejectedValueOnce(new Error())
+    jest.spyOn(mountExtractStub, 'mount').mockImplementationOnce(() => { throw new Error() })
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })

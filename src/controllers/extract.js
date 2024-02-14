@@ -14,7 +14,7 @@ class ExtractController {
       const { client_id } = httpRequest.body
       if(!client_id) return badRequest(new MissingParamError('client_id'))
       const client = await this.#getClientRepository.get(client_id)
-      const extract = await this.#mountExtractModel.mount(client)
+      const extract = this.#mountExtractModel.mount(client)
       return ok(extract)
     } catch(error) {
       if(error.name === 'ClientNotFoundError') return clientNotFoundError(error)
