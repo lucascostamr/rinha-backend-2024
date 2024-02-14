@@ -1,4 +1,4 @@
-const { clientNotFoundError, serverError } = require("../helpers/http")
+const { clientNotFoundError, serverError, ok } = require("../helpers/http")
 
 class ExtractController {
   getClientRepository
@@ -12,7 +12,8 @@ class ExtractController {
     try{
       if(!httpRequest.body.client_id) return { statusCode: 400 }
       const client = await this.getClientRepository.get(httpRequest.body.client_id)
-      await this.mountExtractModel.mount(client)
+      const extract = await this.mountExtractModel.mount(client)
+      return ok(extract)
     } catch(error) {
       if(error.name === 'ClientNotFoundError') return clientNotFoundError(error)
       return serverError(error)
