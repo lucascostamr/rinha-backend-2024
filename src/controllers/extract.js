@@ -1,4 +1,5 @@
-const { clientNotFoundError, serverError, ok } = require("../helpers/http")
+const { MissingParamError } = require("../errors")
+const { clientNotFoundError, serverError, ok, badRequest } = require("../helpers/http")
 
 class ExtractController {
   getClientRepository
@@ -10,7 +11,7 @@ class ExtractController {
   }
   async handle (httpRequest) {
     try{
-      if(!httpRequest.body.client_id) return { statusCode: 400 }
+      if(!httpRequest.body.client_id) return badRequest(new MissingParamError('client_id'))
       const client = await this.getClientRepository.get(httpRequest.body.client_id)
       const extract = await this.mountExtractModel.mount(client)
       return ok(extract)

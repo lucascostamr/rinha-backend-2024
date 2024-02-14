@@ -1,5 +1,5 @@
-const ClientNotFoundError = require('../errors/client-not-found')
-const { clientNotFoundError, serverError, ok } = require('../helpers/http')
+const { ClientNotFoundError, MissingParamError }  = require('../errors/index')
+const { clientNotFoundError, serverError, ok, badRequest } = require('../helpers/http')
 const ExtractController = require('./extract')
 
 const makeGetClientRepository = () => {
@@ -43,7 +43,7 @@ describe('Extract Controller', () => {
       body: {}
     }
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('client_id')))
   })
 
   test('Should call getClientRepository with correct client_id', async () => {
