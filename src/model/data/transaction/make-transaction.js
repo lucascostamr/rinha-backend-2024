@@ -1,11 +1,14 @@
 const TransactionError = require('../../../errors/transaction-error')
 
 class MakeTransactionModel {
-    _limite
-    _saldo
+    #_limite
+    #_saldo
+    #getClientRepository
+    #updateClientRepository
+
     constructor(getClientRepository, updateClientRepository) {
-        this.getClientRepository = getClientRepository
-        this.updateClientRepository = updateClientRepository
+        this.#getClientRepository = getClientRepository
+        this.#updateClientRepository = updateClientRepository
     }
 
     async make (transaction) {
@@ -13,29 +16,29 @@ class MakeTransactionModel {
             throw new TransactionError('No Transaction provided')
         }
         const { client_id, valor, tipo } = transaction
-        const { limite, saldo_inicial } = await this.getClientRepository.get(client_id)
+        const { limite, saldo_inicial } = await this.#getClientRepository.get(client_id)
         switch (tipo) {
             case "c":
-                this._limite = +limite - (+valor)
-                this._saldo = +saldo_inicial
+                this.#_limite = +limite - (+valor)
+                this.#_saldo = +saldo_inicial
                 break;
             case "d":
-                this._saldo = +saldo_inicial - (+valor)
-                this._limite = +limite
+                this.#_saldo = +saldo_inicial - (+valor)
+                this.#_limite = +limite
                 break;
         }
-        if(this._saldo < (-this._limite)) {
+        if(this.#_saldo < (-this.#_limite)) {
             throw new TransactionError('Transaction below limit')
         }
         const client = {
             id: client_id,
-            limite: this._limite,
-            saldo: this._saldo
+            limite: this.#_limite,
+            saldo: this.#_saldo
         }
-        await this.updateClientRepository.update(client)
+        await this.#updateClientRepository.update(client)
         const status = {
-            limite: this._limite,
-            saldo: this._saldo
+            limite: this.#_limite,
+            saldo: this.#_saldo
         };
         return status
     }
