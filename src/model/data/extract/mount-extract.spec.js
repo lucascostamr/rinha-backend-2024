@@ -10,11 +10,20 @@ describe('Mount Extract Model', () => {
   test('Should return null if no saldo_inicial is provided', () => {
     const sut = new MountExtractModel()
     const client = {
-      saldo_inicial: 'any_saldo',
       limite: 'any_limite',
       ultimas_transacoes: []
     }
-    const response = sut.mount()
+    const response = sut.mount(client)
+    expect(response).toBe(null)
+  })
+
+  test('Should return null if no limite is provided', () => {
+    const sut = new MountExtractModel()
+    const client = {
+      saldo_inicial: 'any_saldo',
+      ultimas_transacoes: []
+    }
+    const response = sut.mount(client)
     expect(response).toBe(null)
   })
 });
