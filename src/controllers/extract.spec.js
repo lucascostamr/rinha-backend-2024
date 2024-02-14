@@ -1,5 +1,5 @@
 const ClientNotFoundError = require('../errors/client-not-found')
-const { clientNotFoundError, serverError } = require('../helpers/http')
+const { clientNotFoundError, serverError, ok } = require('../helpers/http')
 const ExtractController = require('./extract')
 
 const makeGetClientRepository = () => {
@@ -72,5 +72,11 @@ describe('Extract Controller', () => {
     jest.spyOn(mountExtractStub, 'mount').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok('extract'))
   })
 });
