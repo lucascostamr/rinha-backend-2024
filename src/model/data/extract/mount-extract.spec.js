@@ -26,4 +26,14 @@ describe('Mount Extract Model', () => {
     const response = sut.mount(client)
     expect(response).toBe(null)
   })
+
+  test('Should return null if no ultimas_transacoes is provided', () => {
+    const sut = new MountExtractModel()
+    const client = {
+      saldo_inicial: 'any_saldo',
+      limite: 'any_limite'
+    }
+    const response = sut.mount(client)
+    expect(response).toBe(null)
+  })
 });
