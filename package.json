@@ -5,7 +5,8 @@
   "main": "mongo-init.js",
   "scripts": {
     "start": "node --watch ./src/main/server.js",
-    "test": "jest --watchAll --passWithNoTests --runInBand"
+    "test": "jest --watchAll --passWithNoTests --runInBand",
+    "test:verbose": "npm test -- --verbose"
   },
   "keywords": [],
   "author": "",
