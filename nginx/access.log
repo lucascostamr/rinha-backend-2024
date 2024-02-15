@@ -1,0 +1,31 @@
+172.20.0.1 - - [15/Feb/2024:20:01:21 +0000] "GET /clientes/1/extrato HTTP/1.1" 200 79 "-" "Thunder Client (https://www.thunderclient.com)"
+172.20.0.1 - - [15/Feb/2024:20:01:21 +0000] "GET /clientes/1/extrato HTTP/1.1" 200 79 "-" "Thunder Client (https://www.thunderclient.com)"
+172.20.0.1 - - [15/Feb/2024:20:01:21 +0000] "GET /clientes/1/extrato HTTP/1.1" 200 79 "-" "Thunder Client (https://www.thunderclient.com)"
+172.20.0.1 - - [15/Feb/2024:20:01:21 +0000] "GET /clientes/1/extrato HTTP/1.1" 200 79 "-" "Thunder Client (https://www.thunderclient.com)"
+172.20.0.1 - - [15/Feb/2024:20:01:21 +0000] "GET /clientes/1/extrato HTTP/1.1" 200 79 "-" "Thunder Client (https://www.thunderclient.com)"
+172.20.0.1 - - [15/Feb/2024:20:01:22 +0000] "GET /clientes/1/extrato HTTP/1.1" 200 79 "-" "Thunder Client (https://www.thunderclient.com)"
+172.20.0.1 - - [15/Feb/2024:20:01:22 +0000] "GET /clientes/1/extrato HTTP/1.1" 200 79 "-" "Thunder Client (https://www.thunderclient.com)"
+172.20.0.1 - - [15/Feb/2024:20:01:22 +0000] "GET /clientes/1/extrato HTTP/1.1" 200 79 "-" "Thunder Client (https://www.thunderclient.com)"
+172.20.0.1 - - [15/Feb/2024:20:01:22 +0000] "GET /clientes/1/extrato HTTP/1.1" 200 79 "-" "Thunder Client (https://www.thunderclient.com)"
+ to: 172.20.0.3:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.021 request_time 0.022
+ to: 172.20.0.4:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.020 request_time 0.020
+ to: 172.20.0.3:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.004 request_time 0.004
+ to: 172.20.0.4:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.004 request_time 0.005
+ to: 172.20.0.3:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.003 request_time 0.003
+ to: 172.20.0.4:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.003 request_time 0.003
+ to: 172.20.0.3:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.003 request_time 0.003
+ to: 172.20.0.4:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.003 request_time 0.003
+ to: 172.20.0.3:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.003 request_time 0.004
+ to: 172.20.0.4:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.004 request_time 0.004
+ to: 172.20.0.3:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.003 request_time 0.004
+ to: 172.20.0.4:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.003 request_time 0.003
+ to: 172.20.0.3:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.003 request_time 0.003
+ to: 172.20.0.4:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.002 request_time 0.003
+ to: 172.20.0.3:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.003 request_time 0.003
+ to: 172.20.0.4:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.003 request_time 0.003
+ to: 172.20.0.3:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.004 request_time 0.005
+ to: 172.20.0.4:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.004 request_time 0.005
+ to: 172.20.0.3:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.003 request_time 0.003
+ to: 172.20.0.4:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.003 request_time 0.004
+ to: 172.20.0.3:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.002 request_time 0.002
+ to: 172.20.0.4:3000 {GET /clientes/1/extrato HTTP/1.1} upstream_response_time 0.002 request_time 0.003
