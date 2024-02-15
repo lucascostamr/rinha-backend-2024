@@ -3,15 +3,15 @@
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Nginx_logo.svg" alt="logo nginx" width="300" height="auto">
 <br />
-<img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Clojure_logo.svg" alt="logo clojure" width="200" height="auto">
-<img src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg" alt="logo postgres" width="200" height="auto">
+<img src="https://static-00.iconduck.com/assets.00/node-js-icon-454x512-nztofx17.png" alt="logo node" width="200" height="auto">
+<img src="https://www.svgrepo.com/show/331488/mongodb.svg" alt="logo mongo" width="200" height="auto">
 
 
-## Francisco Zanfranceschi
+## Dreamagici4n
 Submissão feita com:
 - `nginx` como load balancer
-- `postgres` como banco de dados
-- `clojure` para api com as libs `compojure` e `next.jdbc`
-- [repositório da api](https://github.com/zanfranceschi/rinha-de-backend-2024-q1-poc)
+- `mongodb` como banco de dados
+- `node` para api com as lib `express`
+- [repositório da api](https://github.com/DreaMagici4n/rinha-backend-2024)
 
-[@zanfranceschi](https://twitter.com/zanfranceschi) @ twitter
+[@Lucas](https://www.linkedin.com/in/lucas-da-costa-miranda-b771a6218/) @ Linkedin
