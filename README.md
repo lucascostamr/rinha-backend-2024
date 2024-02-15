@@ -11,7 +11,7 @@
 Submissão feita com:
 - `nginx` como load balancer
 - `mongodb` como banco de dados
-- `node` para api com as lib `express`
+- `node` para api com a lib `express`
 - [repositório da api](https://github.com/DreaMagici4n/rinha-backend-2024)
 
 [@Lucas](https://www.linkedin.com/in/lucas-da-costa-miranda-b771a6218/) @ Linkedin
