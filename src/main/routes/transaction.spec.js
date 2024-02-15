@@ -27,7 +27,7 @@ describe('Transaction Route', () => {
 
   test('Should return status on success', async () => {
       await request(app)
-      .post('/api/clientes/1/transacoes')
+      .post('/clientes/1/transacoes')
       .send({
         valor: 1,
         tipo: 'c',

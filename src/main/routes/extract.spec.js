@@ -28,7 +28,7 @@ describe('Extract Route', () => {
 
   test('Should return extract on success', async () => {
     const response = await request(app)
-    .get('/api/clientes/1/extrato')
+    .get('/clientes/1/extrato')
     
     expect(response.statusCode).toBe(200)
   })
